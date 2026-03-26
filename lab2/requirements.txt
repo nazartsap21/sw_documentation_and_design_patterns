@@ -1,0 +1,4 @@
+flask==3.0.3
+sqlalchemy==2.0.30
+pymysql==1.1.1
+PyYAML==6.0.2

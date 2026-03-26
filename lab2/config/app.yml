@@ -1,0 +1,2 @@
+db:
+  uri: "mysql+pymysql://user:password@localhost:3306/lab2_db"
