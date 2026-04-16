@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Report {{ report.id[:8] }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Report Detail</h1>
+    <a href="{{ url_for('reports.index') }}" class="btn btn-secondary">Back</a>
+</div>
+
+<div class="detail-card">
+    <p><strong>ID:</strong> {{ report.id }}</p>
+    <p><strong>Created At:</strong> {{ report.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+</div>
+
+<h2>Tables</h2>
+{% if report.tables %}
+<table>
+    <thead>
+        <tr><th>#</th><th>Rows</th><th>Columns</th></tr>
+    </thead>
+    <tbody>
+        {% for t in report.tables %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ t.rows }}</td>
+            <td>{{ t.columns }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty-state">No tables.</p>
+{% endif %}
+
+<h2>Charts</h2>
+{% if report.charts %}
+<ul class="tag-list">
+    {% for c in report.charts %}
+    <li>{{ c.type }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p class="empty-state">No charts.</p>
+{% endif %}
+
+<h2>Metrics</h2>
+{% if report.metrics %}
+<table>
+    <thead>
+        <tr><th>Name</th><th>Value</th></tr>
+    </thead>
+    <tbody>
+        {% for m in report.metrics %}
+        <tr>
+            <td>{{ m.name }}</td>
+            <td>{{ "%.4f"|format(m.value) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty-state">No metrics.</p>
+{% endif %}
+{% endblock %}

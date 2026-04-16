@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Financial Data{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Financial Data</h1>
+    <a href="{{ url_for('financial.create_form') }}" class="btn btn-primary">+ Add Record</a>
+</div>
+
+{% if records %}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Period</th>
+            <th>Department</th>
+            <th>Revenue</th>
+            <th>Expenses</th>
+            <th>Profit</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in records %}
+        <tr>
+            <td>{{ r.id }}</td>
+            <td>{{ r.period }}</td>
+            <td>{{ r.department }}</td>
+            <td>{{ "%.2f"|format(r.revenue) }}</td>
+            <td>{{ "%.2f"|format(r.expenses) }}</td>
+            <td class="{{ 'profit-positive' if r.profit >= 0 else 'profit-negative' }}">
+                {{ "%.2f"|format(r.profit) }}
+            </td>
+            <td class="actions">
+                <a href="{{ url_for('financial.edit_form', record_id=r.id) }}" class="btn btn-secondary">Edit</a>
+                <form method="post" action="{{ url_for('financial.delete', record_id=r.id) }}" style="display:inline"
+                      onsubmit="return confirm('Delete this record?')">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty-state">No financial records found. <a href="{{ url_for('financial.create_form') }}">Add the first one.</a></p>
+{% endif %}
+{% endblock %}
