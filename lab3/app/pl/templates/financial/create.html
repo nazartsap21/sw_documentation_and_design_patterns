@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}Add Financial Record{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Add Financial Record</h1>
+    <a href="{{ url_for('financial.index') }}" class="btn btn-secondary">Back</a>
+</div>
+
+<form method="post" action="{{ url_for('financial.create') }}" class="form-card">
+    <div class="form-group">
+        <label for="period">Period</label>
+        <input type="text" id="period" name="period" placeholder="e.g. 2024-Q1" required>
+    </div>
+    <div class="form-group">
+        <label for="department">Department</label>
+        <input type="text" id="department" name="department" placeholder="e.g. Sales" required>
+    </div>
+    <div class="form-group">
+        <label for="revenue">Revenue</label>
+        <input type="number" id="revenue" name="revenue" step="0.01" min="0" required>
+    </div>
+    <div class="form-group">
+        <label for="expenses">Expenses</label>
+        <input type="number" id="expenses" name="expenses" step="0.01" min="0" required>
+    </div>
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{{ url_for('financial.index') }}" class="btn btn-secondary">Cancel</a>
+    </div>
+</form>
+{% endblock %}

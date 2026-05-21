@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Reports{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Reports</h1>
+    <form method="post" action="{{ url_for('reports.generate') }}">
+        <button type="submit" class="btn btn-primary">Generate Report</button>
+    </form>
+</div>
+
+{% if reports %}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Created At</th>
+            <th>Tables</th>
+            <th>Charts</th>
+            <th>Metrics</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in reports %}
+        <tr>
+            <td>{{ r.id[:8] }}…</td>
+            <td>{{ r.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>{{ r.tables | length }}</td>
+            <td>{{ r.charts | length }}</td>
+            <td>{{ r.metrics | length }}</td>
+            <td>
+                <a href="{{ url_for('reports.detail', report_id=r.id) }}" class="btn btn-secondary">View</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty-state">No reports yet. Add financial records and click "Generate Report".</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Users{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Users</h1>
+    <a href="{{ url_for('users.create_form') }}" class="btn btn-primary">+ Add User</a>
+</div>
+
+{% if users %}
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Role</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.id[:8] }}…</td>
+            <td>{{ u.name }}</td>
+            <td><span class="badge badge-{{ u.role }}">{{ u.role }}</span></td>
+            <td>
+                <form method="post" action="{{ url_for('users.delete', user_id=u.id) }}" style="display:inline"
+                      onsubmit="return confirm('Delete this user?')">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p class="empty-state">No users yet. <a href="{{ url_for('users.create_form') }}">Add the first one.</a></p>
+{% endif %}
+{% endblock %}
